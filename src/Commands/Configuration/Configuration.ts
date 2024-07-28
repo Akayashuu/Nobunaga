@@ -49,7 +49,6 @@ class Configuration extends BaseCommand {
     }
 
     private add() {
-        console.log(__dirname);
         const user_id = this.args[0];
         if(wUser.isSnowflake(user_id)) {
             fs.readFile(Configuration.db_path, 'utf8', (err, data) => {
