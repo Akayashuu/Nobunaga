@@ -1,6 +1,7 @@
 # Nobunaga
 
 Nobunaga est un bot Discord conçu pour intégrer une banque sur le bot [Enderbot](https://ender.gg/#) 
+Prefix: `.`
 ## Table des matières
 
 - [Commandes](#Commandes)
