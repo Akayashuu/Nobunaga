@@ -40,10 +40,8 @@ class Get extends BaseCommand {
     }
 
     private fetchDatabase():any { 
-        const file = fs.readFile('./src/Modules/Database/config.json', 'utf8', (err, data) => {
-            if(err) throw err;
-            return JSON.parse(data)
-        })
+        const file = fs.readFileSync('./src/Modules/Database/config.json', 'utf8')
+        return JSON.parse(file);
     }
 
 
