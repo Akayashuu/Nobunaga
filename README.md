@@ -25,7 +25,7 @@ Pour installer Nobunaga, suivez ces étapes :
 
 1. Clonez le dépôt GitHub :
     ```bash
-    git clone https://github.com/votre-utilisateur/nobunaga.git
+    git clone https://github.com/Akayashuu/Nobunaga.git
     ```
 
 2. Naviguez dans le répertoire du projet :
