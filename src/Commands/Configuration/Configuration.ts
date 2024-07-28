@@ -3,7 +3,6 @@ import BaseCommand from "../../Modules/Commands/BaseCommand";
 import Command from "../../Types/Command";
 import fs from 'fs';
 import wUser from '../../Modules/Discordjs/User';
-import database from '../../Modules/Database/config.json';
 
 export default {
 	async run(client:Client, author:Snowflake, message:Message, args:string[]) {
@@ -19,6 +18,8 @@ export default {
 class Configuration extends BaseCommand {
 
     static db_path = './src/Modules/Database/config.json';
+
+    private database = this.fetchDatabase();
     
     public constructor(client:Client, author:Snowflake, message:Message, args:string[]) {
         super(client, author, message, args);
@@ -33,7 +34,7 @@ class Configuration extends BaseCommand {
      * @returns {Promise<void>}
      */
     public async router():Promise<void> {
-        if(!database.authorized_user_ids.includes(this.author)) this.message.channel.send("You are not allowed to use this command.");
+        if(!this.database.authorized_user_ids.includes(this.author)) this.message.channel.send("You are not allowed to use this command.");
         const sub = [
             "add",
             "remove"
@@ -81,5 +82,12 @@ class Configuration extends BaseCommand {
         } else {
             this.message.channel.send("Please provide a valid user id.");
         }
+    }
+
+    private fetchDatabase():any { 
+        const file = fs.readFile('./src/Modules/Database/config.json', 'utf8', (err, data) => {
+            if(err) throw err;
+            return JSON.parse(data)
+        })
     }
 }
