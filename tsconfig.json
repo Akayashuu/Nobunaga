@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+       "experimentalDecorators": true,
+       "target": "ES6",                          
+       "module": "CommonJS",      
+       "strict": false,
+       "esModuleInterop": true,       
+       "skipLibCheck": true,              
+       "forceConsistentCasingInFileNames": true,
+       "resolveJsonModule": true,
+       "outDir": "./dist",
+       "rootDirs": ["./src", "./public"],
+       "lib": ["ES2021.String"]
+    },
+    "exclude": [
+       "node_modules",
+       "dist",
+    ]
+   }

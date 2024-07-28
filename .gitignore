@@ -1,0 +1,6 @@
+dist/
+emoji/
+logs/
+node_modules/
+.vscode/
+.git/
