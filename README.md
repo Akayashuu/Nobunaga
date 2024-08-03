@@ -9,8 +9,7 @@ Prefix: `.`
 - [Configuration](#configuration)
 - [Utilisation](#utilisation)
 - [Contribuer](#contribuer)
-- [Licence](#licence)
-
+ 
 ## Commandes
 
 - **Exploration, Alchemy, Inventory, Resources**: Ces commandes permettent de consulter différents inventaires.
@@ -90,9 +89,5 @@ Pour utiliser Nobunaga, assurez-vous que votre bot est en ligne et que vous avez
 ## Contribuer
 
 Les contributions sont les bienvenues ! Pour proposer des améliorations, veuillez ouvrir une issue ou soumettre une pull request.
-
-## Licence
-
-Ce projet est sous licence MIT. Pour plus de détails, consultez le fichier LICENSE.
 
 Pour plus d'informations sur Enderbot, visitez [Ender.gg](https://ender.gg/).
