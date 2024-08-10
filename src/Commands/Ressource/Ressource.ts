@@ -5,7 +5,7 @@ import { Inventory } from '../Inventory/Inventory';
 
 export default {
 	async run(client:Client, author:Snowflake, message:Message, args:string[]) {
-		args[0] = 'resource';
+		args[0] = 'ressource';
         new Inventory(client, author, message, args)
     },
 	help:{

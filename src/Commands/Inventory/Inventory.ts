@@ -4,7 +4,6 @@ import Command from "../../Types/Command";
 
 export default {
 	async run(client:Client, author:Snowflake, message:Message, args:string[]) {
-        args[0] = 'inventory';
         new Inventory(client, author, message, args)
     },
 	help:{
