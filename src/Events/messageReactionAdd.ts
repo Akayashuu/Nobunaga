@@ -47,8 +47,10 @@ class messageReactionAdd {
     private async handleEnderbotAction(action: EnderbotCraftData | EnderbotForgeData, message: Message, userId: string):Promise<void> {
         delete action.cost.mana;
         
-        const costArr = Object.entries(action.cost).map(
-            ([key, value]) => `${value.underscoreId} ${parseInt(`${value.number * 1.01}`)}`
+        const costArr = Object.entries(action.cost).filter(([e, k]) => k.missing).map(
+            ([key, value]) => {
+                return `${value.underscoreId} ${parseInt(`${value.number * 1.01}`)}`
+            }
         );
         
         await Get.run(message.client, userId, message, costArr);
