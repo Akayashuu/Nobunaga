@@ -2,6 +2,7 @@ import { Client, Message, Snowflake } from 'discord.js';
 import BaseCommand from "../../Modules/Commands/BaseCommand";
 import Command from "../../Types/Command";
 import fs from 'fs';
+import {Configuration} from '../Configuration/Configuration';
 
 export default {
 	async run(client:Client, author:Snowflake, message:Message, args:string[]) {
@@ -40,7 +41,7 @@ class Get extends BaseCommand {
     }
 
     private fetchDatabase():any { 
-        const file = fs.readFileSync('./src/Modules/Database/config.json', 'utf8')
+        const file = fs.readFileSync(Configuration.db_path, 'utf8')
         return JSON.parse(file);
     }
 

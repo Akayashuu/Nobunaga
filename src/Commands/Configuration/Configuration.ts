@@ -17,7 +17,7 @@ export default {
 
 class Configuration extends BaseCommand {
 
-    static db_path = './src/Modules/Database/config.json';
+    static db_path = './src/config.json';
 
     private database = this.fetchDatabase();
     
@@ -37,7 +37,8 @@ class Configuration extends BaseCommand {
         if(!this.database.authorized_user_ids.includes(this.author)) this.message.channel.send("You are not allowed to use this command.");
         const sub = [
             "add",
-            "remove"
+            "remove",
+            "list"
         ]
         switch(this.getSubCommand(sub)) {
             case "add":
@@ -45,6 +46,9 @@ class Configuration extends BaseCommand {
                 break;
             case "remove":
                 this.remove();
+                break;
+            case "list":
+                this.list();
                 break;
         }        
     }
@@ -84,8 +88,16 @@ class Configuration extends BaseCommand {
         }
     }
 
+    private list() {
+        var msg = `Authorized users: ${this.database.authorized_user_ids.map((id:string) => `<@${id}>`).join(', ')}`;
+        if(msg.length > 2000) msg = msg.slice(0, 2000);
+        this.message.channel.send({content: msg, allowedMentions: {parse: []}});
+    }
+
     private fetchDatabase():any { 
-        const file = fs.readFileSync('./src/Modules/Database/config.json', 'utf8')
+        const file = fs.readFileSync(Configuration.db_path, 'utf8')
         return JSON.parse(file);
     }
 }
+
+export { Configuration };
