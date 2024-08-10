@@ -16,7 +16,7 @@ Prefix: `.`
 - **Add**: Ajoute des ressources à la banque.
 - **Get**: Récupère des ressources de la banque.
 - **Assert**: Connaître le nombre de ressources disponibles.
-- **Configuration**: Configure les accès à la banque, notamment pour la commande `get`. Syntaxe : `configuration add/remove id`.
+- **Configuration**: Configure les accès à la banque, notamment pour la commande `get`. Syntaxe : `configuration add/remove id`, `configuration list`.
 
 
 ## Installation
@@ -75,7 +75,7 @@ Pour installer Nobunaga, suivez ces étapes :
     }
     ```
 2. Configurez les owners :
-   Allez dans le fichier `/src/Modules/Database/config.json` et ajoutez les identifiants des propriétaires qui pourront utiliser la commande `configuration`.
+   Allez dans le fichier `/src/config.json` et ajoutez les identifiants des propriétaires qui pourront utiliser la commande `configuration`.
    Vous pouvez également entrer à la main les utilisateurs qui pourront utiliser la commande `get`
 
 3. Dernière étape ! Lancer votre bot: 
