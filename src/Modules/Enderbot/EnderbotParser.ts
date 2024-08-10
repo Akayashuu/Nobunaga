@@ -70,7 +70,6 @@ class EnderbotParser {
         const notation = data.slice(-1).toLocaleLowerCase();
         if(!d[notation]) return parseFloat(data);
         const number = data.slice(0, -1);
-        console.log(number, d[notation])
         return parseFloat(number) * d[notation];
     } 
 }
