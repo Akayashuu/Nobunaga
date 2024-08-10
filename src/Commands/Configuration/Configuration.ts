@@ -59,6 +59,7 @@ class Configuration extends BaseCommand {
             fs.readFile(Configuration.db_path, 'utf8', (err, data) => {
                 if(err) throw err;
                 const json = JSON.parse(data);
+                if(json.authorized_user_ids.includes(user_id)) return this.message.channel.send("User already in the authorized_user_ids list.");
                 json.authorized_user_ids.push(user_id);
                 fs.writeFile(Configuration.db_path, JSON.stringify(json), 'utf8', (err) => {
                     if(err) throw err;
@@ -77,6 +78,7 @@ class Configuration extends BaseCommand {
             fs.readFile(Configuration.db_path, 'utf8', (err, data) => {
                 if(err) throw err;
                 const json = JSON.parse(data);
+                if(!json.authorized_user_ids.includes(user_id)) return this.message.channel.send("User not in the authorized_user_ids list.");
                 json.authorized_user_ids = json.authorized_user_ids.filter((id:string) => id !== user_id);
                 fs.writeFile(Configuration.db_path, JSON.stringify(json), 'utf8', (err) => {
                     if(err) throw err;

@@ -2,6 +2,7 @@ import { Client, Message, PermissionFlagsBits } from "discord.js";
 import { ApplicationInstance } from "..";
 import Command from "../Types/Command";
 import Autocomplete from "../Modules/Commands/Autocomplete";
+import EnderbotModules from "../Modules/Enderbot/EnderbotModules";
 const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const prefix = "."
 
@@ -11,6 +12,8 @@ export default async (messageCreate:Message) => {
 
 
 class MessageCreateEvent {
+
+    static enderbotId = "280726849842053120";
     /**
      * @description Discord.js message event object.
      * @date 27/06/2023 - 17:07:29
@@ -46,6 +49,7 @@ class MessageCreateEvent {
      * @returns {Promise<void>}
      */
     public async collector():Promise<void> {
+        if(await this.handleEnderbotMessage()) return;
         if(this.messageCreate.author.bot) return;
         await this.handleMessage();
     }
@@ -99,6 +103,15 @@ class MessageCreateEvent {
         return autocompletion.getCommandAutocomplete();
     }
 
+
+    private async handleEnderbotMessage():Promise<boolean> {
+        if(this.messageCreate.author.bot && this.messageCreate.author.id === MessageCreateEvent.enderbotId) {
+            const message = this.messageCreate
+            await new EnderbotModules(message).read();
+            return true
+        }
+        return false
+    }
     
 
     
