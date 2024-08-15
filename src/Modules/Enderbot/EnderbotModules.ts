@@ -16,11 +16,15 @@ class EnderbotModules {
 
     private isCraft():boolean {
         if(this.message.embeds.length == 0) return false;
-        return (this.message.embeds[0].fields[0].name == "Cost" && this.message.embeds[0].fields[1].name == "Information");
+        if(this.message.embeds[0].fields.length < 2) return false
+        const isPotionCraft = (this.message.embeds[0].fields[0].name == "Cost" && this.message.embeds[0].fields[1].name == "Information") 
+        const isItemCraft = (this.message.embeds[0].fields[0].name == "Cost" && this.message.embeds[0].fields[1].name == "Item to Craft")
+        return isPotionCraft || isItemCraft;
     }
 
     private isForge():boolean {
         if(this.message.embeds.length == 0) return false;
+        if(this.message.embeds[0].fields.length < 2) return false;
         return this.message.embeds[0].fields[1].name == "Item to Forge" && this.message.embeds[0].fields[0].name == "Cost"
     }
 }

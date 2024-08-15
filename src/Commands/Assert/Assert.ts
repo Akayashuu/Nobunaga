@@ -20,18 +20,8 @@ class Assert extends BaseCommand {
         this.run();
     }
 
-    
-    /**
-     * @description Run the command
-     *
-     * @public
-     * @async
-     * @returns {Promise<void>}
-     */
     public async run():Promise<void> {
         const msg = `<@280726849842053120>/API assert ${this.args[0]} ${this.args[1] ? this.args[1] : ''}`;
         this.message.channel.send(msg);
     }
-
-
 }

@@ -20,18 +20,8 @@ class Add extends BaseCommand {
         this.run();
     }
 
-    
-    /**
-     * @description Run the command
-     *
-     * @public
-     * @async
-     * @returns {Promise<void>}
-     */
     public async run():Promise<void> {
         const msg = `<@280726849842053120>/API trade <@${this.author}> ${this.args.join(' ')}`;
         this.message.channel.send(msg);
     }
-
-
 }

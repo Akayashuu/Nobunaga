@@ -22,14 +22,6 @@ class Get extends BaseCommand {
         this.run();
     }
 
-    
-    /**
-     * @description Run the command
-     *
-     * @public
-     * @async
-     * @returns {Promise<void>}
-     */
     public async run():Promise<void> {
         const database = this.fetchDatabase();
         if(database.authorized_user_ids.includes(this.author)) {

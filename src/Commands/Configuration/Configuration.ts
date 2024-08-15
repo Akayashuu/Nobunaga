@@ -25,14 +25,6 @@ class Configuration extends BaseCommand {
         super(client, author, message, args);
     }
 
-    
-    /**
-     * @description Run the command
-     *
-     * @public
-     * @async
-     * @returns {Promise<void>}
-     */
     public async router():Promise<void> {
         if(!this.database.authorized_user_ids.includes(this.author)) this.message.channel.send("You are not allowed to use this command.");
         const sub = [
@@ -70,7 +62,6 @@ class Configuration extends BaseCommand {
             this.message.channel.send("Please provide a valid user id.");
         }
     }
-
 
     private remove() {
         const user_id = this.args[0];
