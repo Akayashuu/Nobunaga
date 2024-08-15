@@ -66,7 +66,7 @@ class EnderbotParser {
     }
 
     static binaryNotationToNumber(data:string):number {
-        const d = {k:1000, M:1000000, B:1000000000};
+        const d = {k:1000, m:1000000, g:1000000000};
         const notation = data.slice(-1).toLocaleLowerCase();
         if(!d[notation]) return parseFloat(data);
         const number = data.slice(0, -1);

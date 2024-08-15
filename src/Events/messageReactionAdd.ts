@@ -49,7 +49,7 @@ class messageReactionAdd {
         
         const costArr = Object.entries(action.cost).filter(([e, k]) => k.missing).map(
             ([key, value]) => {
-                return `${value.underscoreId} ${parseInt(`${value.number * 1.01}`)}`
+                return `${value.underscoreId} ${parseInt(`${value.number * 1.03}`)}`
             }
         );
         
