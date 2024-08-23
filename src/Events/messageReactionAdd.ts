@@ -2,6 +2,7 @@ import { Message, MessageReaction, PartialMessage, PartialMessageReaction, Parti
 import EnderbotModules from "../Modules/Enderbot/EnderbotModules";
 import EnderbotParser, { EnderbotCraftData, EnderbotForgeData } from "../Modules/Enderbot/EnderbotParser";
 import Get from "../Commands/Get/Get";
+import Add from "../Commands/Add/Add";
 
 
 
@@ -32,6 +33,12 @@ class messageReactionAdd {
             if(!forge || forge?.canForge) return;
             this.handleEnderbotAction(forge, this.message.message as Message, this.user.id);
         }
+        if (this.isInventoryAdd()) {
+            const inventory = EnderbotParser.parseInventoryEmbed(this.message.message as Message);
+            if(!inventory) return;
+            const args = Object.keys(inventory).map(key => `${inventory[key].underscoreId} ${inventory[key].number}`);
+            await Add.run(this.message.message.client, this.user.id, this.message.message as Message, args);
+        }
     }
 
     private isEnderbotCraft():boolean {
@@ -42,6 +49,11 @@ class messageReactionAdd {
     private isEnderbotForge():boolean {
         if(!this.message.message) return false;
         return this.message.emoji.name == "🔧" && this.message.message.author.id == "280726849842053120" && !this.user.bot
+    }
+
+    private isInventoryAdd():boolean {
+        if(!this.message.message) return false;
+        return this.message.emoji.name == "📦" && this.message.message.author.id == "280726849842053120" && !this.user.bot
     }
 
     private async handleEnderbotAction(action: EnderbotCraftData | EnderbotForgeData, message: Message, userId: string):Promise<void> {
