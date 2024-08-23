@@ -2,6 +2,33 @@ import { APIEmbedField, Message } from "discord.js";
 
 class EnderbotParser {
 
+
+
+    static parseInventoryEmbed(message:Message<boolean>):EnderbotInventoryData {
+        const embed = message.embeds;
+        if(embed.length == 0) return null;
+        const inventory = {} as EnderbotInventoryData;
+        for(let field of embed[0].fields) {
+            const category = field.name;
+            const cleaned = this.cleanCraftData(field.value);
+            const splitted = cleaned.split("\n");
+            for(const line of splitted) {
+                const name = line.split(":")[0].trim();
+                const underscoreId = this.toUnderscore(name);
+                const value = line.split(":")[1];
+                const valueSplit = value.split(" ");
+                const number = this.binaryNotationToNumber(valueSplit[1]);
+                inventory[underscoreId] = {
+                    name,
+                    underscoreId,
+                    number,
+                    category
+                }
+            }
+        }
+        return inventory;
+    }
+
     static parseForgeEmbed(message:Message<boolean>):EnderbotForgeData {
         const embed = message.embeds;
         if(embed.length == 0) return null;
@@ -62,7 +89,8 @@ class EnderbotParser {
     }
 
     static cleanCraftData(data:string):string {
-        return data.replace(/<:.*:.*>/g, "").replace(/⭐/g, "")
+        return data.replace(/<:.*:.*>/g, "")
+                   .replace(/[^\p{L}\p{N}\p{P}\p{Z}^$\n]/gu, '');
     }
 
     static binaryNotationToNumber(data:string):number {
@@ -70,8 +98,17 @@ class EnderbotParser {
         const notation = data.slice(-1).toLocaleLowerCase();
         if(!d[notation]) return parseFloat(data);
         const number = data.slice(0, -1);
-        return parseFloat(number) * d[notation];
+        return Math.trunc(parseFloat(number) * d[notation])
     } 
+}
+
+interface EnderbotInventoryData {
+    [key:string]:{
+        number:number
+        underscoreId:string
+        name:string
+        category:string
+    }
 }
 
 interface EnderbotCraftData {
