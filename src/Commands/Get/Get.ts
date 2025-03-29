@@ -33,7 +33,7 @@ class Get extends BaseCommand {
 	public async run(): Promise<void> {
 		const database = this.fetchDatabase();
 		if (database.authorized_user_ids.includes(this.author)) {
-			const msg = `>trade  ${this.args.join(" ")} <@${this.author}>`;
+			const msg = `>trade ${this.args.join(" ")} <@${this.author}>`;
 			this.message.channel.send(msg);
 		} else {
 			this.message.channel.send(

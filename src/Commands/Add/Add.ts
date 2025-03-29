@@ -29,7 +29,7 @@ class Add extends BaseCommand {
 	}
 
 	public async run(): Promise<void> {
-		const msg = `>trade  <@${this.author}> ${this.args.join(" ")}`;
+		const msg = `>trade <@${this.author}> ${this.args.join(" ")}`;
 		this.message.channel.send(msg);
 	}
 }
