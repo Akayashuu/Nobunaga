@@ -63,7 +63,7 @@ class MessageCreateEvent {
 		const prefixRegex = new RegExp(
 			`^(<@!?${this.client.user.id}>|${escapeRegex(prefix)})\\s*`,
 		);
-		var args: string[] = [];
+		let args: string[] = [];
 		let command: string = null;
 		if (!this.messageCreate.content) return;
 		let content = this.messageCreate.content.toLowerCase();

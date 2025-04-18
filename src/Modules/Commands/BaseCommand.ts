@@ -41,8 +41,9 @@ class BaseCommand {
 			return sub;
 		}
 		(async (e) => {
+			if (!this.message.channel.isSendable()) return;
 			await this.message.channel.send(
-				"Please provide a valid subcommand: " + subcommands.join(", "),
+				`Please provide a valid subcommand: ${subcommands.join(", ")}`,
 			);
 		})();
 		return false;

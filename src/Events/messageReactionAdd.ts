@@ -35,7 +35,7 @@ class messageReactionAdd {
 
 	public async collector(): Promise<void> {
 		if (!this.message.message) return;
-		if (this.message.message.embeds.length == 0) return;
+		if (this.message.message.embeds.length === 0) return;
 		if (this.isEnderbotCraft()) {
 			const craft = EnderbotParser.parseCraftEmbed(
 				this.message.message as Message,
@@ -78,8 +78,8 @@ class messageReactionAdd {
 	private isEnderbotCraft(): boolean {
 		if (!this.message.message) return false;
 		return (
-			this.message.emoji.name == "🔨" &&
-			this.message.message.author.id == "280726849842053120" &&
+			this.message.emoji.name === "🔨" &&
+			this.message.message.author.id === "280726849842053120" &&
 			!this.user.bot
 		);
 	}
@@ -87,8 +87,8 @@ class messageReactionAdd {
 	private isEnderbotForge(): boolean {
 		if (!this.message.message) return false;
 		return (
-			this.message.emoji.name == "🔧" &&
-			this.message.message.author.id == "280726849842053120" &&
+			this.message.emoji.name === "🔧" &&
+			this.message.message.author.id === "280726849842053120" &&
 			!this.user.bot
 		);
 	}
@@ -96,8 +96,8 @@ class messageReactionAdd {
 	private isInventoryAdd(): boolean {
 		if (!this.message.message) return false;
 		return (
-			this.message.emoji.name == "📦" &&
-			this.message.message.author.id == "280726849842053120" &&
+			this.message.emoji.name === "📦" &&
+			this.message.message.author.id === "280726849842053120" &&
 			!this.user.bot
 		);
 	}
@@ -107,9 +107,10 @@ class messageReactionAdd {
 		message: Message,
 		userId: string,
 	): Promise<void> {
-		delete action.cost.mana;
+		action.cost.mana = undefined;
 
 		const costArr = Object.entries(action.cost)
+			.filter(([e, k]) => k !== undefined)
 			.filter(([e, k]) => k.missing)
 			.map(([key, value]) => {
 				const nb = value.number < 1000 ? value.number : value.number * 1.03;

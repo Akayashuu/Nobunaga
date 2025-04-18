@@ -1,20 +1,21 @@
 import type { APIEmbedField, Message } from "discord.js";
 
+// biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 class EnderbotParser {
 	static parseInventoryEmbed(message: Message<boolean>): EnderbotInventoryData {
 		const embed = message.embeds;
-		if (embed.length == 0) return null;
+		if (embed.length === 0) return null;
 		const inventory = {} as EnderbotInventoryData;
 		for (const field of embed[0].fields) {
 			const category = field.name;
-			const cleaned = this.cleanCraftData(field.value);
+			const cleaned = EnderbotParser.cleanCraftData(field.value);
 			const splitted = cleaned.split("\n");
 			for (const line of splitted) {
 				const name = line.split(":")[0].trim();
-				const underscoreId = this.toUnderscore(name);
+				const underscoreId = EnderbotParser.toUnderscore(name);
 				const value = line.split(":")[1];
 				const valueSplit = value.split(" ");
-				const number = this.binaryNotationToNumber(valueSplit[1]);
+				const number = EnderbotParser.binaryNotationToNumber(valueSplit[1]);
 				inventory[underscoreId] = {
 					name,
 					underscoreId,
@@ -28,12 +29,12 @@ class EnderbotParser {
 
 	static parseForgeEmbed(message: Message<boolean>): EnderbotForgeData {
 		const embed = message.embeds;
-		if (embed.length == 0) return null;
+		if (embed.length === 0) return null;
 		const data = embed[0].fields;
 		const craftData = {} as EnderbotForgeData;
 		for (const field of data) {
-			if (field.name == "Cost") {
-				craftData.cost = this.getCraftCost(field);
+			if (field.name === "Cost") {
+				craftData.cost = EnderbotParser.getCraftCost(field);
 			}
 		}
 		craftData.canForge = !Object.values(craftData.cost).some(
@@ -44,12 +45,12 @@ class EnderbotParser {
 
 	static parseCraftEmbed(message: Message<boolean>): EnderbotCraftData {
 		const embed = message.embeds;
-		if (embed.length == 0) return null;
+		if (embed.length === 0) return null;
 		const data = embed[0].fields;
 		const craftData = {} as EnderbotCraftData;
 		for (const field of data) {
-			if (field.name == "Cost") {
-				craftData.cost = this.getCraftCost(field);
+			if (field.name === "Cost") {
+				craftData.cost = EnderbotParser.getCraftCost(field);
 			} else {
 				const id = field.value.match(/`\D*`/gm)[0].replace(/`/g, "");
 				craftData.id = id;
@@ -65,12 +66,12 @@ class EnderbotParser {
 	}
 
 	static getCraftCost(field: APIEmbedField): EnderbotCraftData["cost"] {
-		const cleaned = this.cleanCraftData(field.value);
+		const cleaned = EnderbotParser.cleanCraftData(field.value);
 		const splitted = cleaned.split("\n");
 		const cost = {} as EnderbotCraftData["cost"];
 		for (const line of splitted) {
 			const name = line.split(":")[0].trim();
-			const underscoreId = this.toUnderscore(name);
+			const underscoreId = EnderbotParser.toUnderscore(name);
 			const value = line.split(":")[1];
 			const isMissing = value.includes("❌");
 			const valueSplit = value.split(" ");
@@ -80,7 +81,7 @@ class EnderbotParser {
 			cost[underscoreId] = {
 				name,
 				underscoreId,
-				number: this.binaryNotationToNumber(number),
+				number: EnderbotParser.binaryNotationToNumber(number),
 				missing: isMissing,
 			};
 		}
