@@ -1,6 +1,6 @@
-import { Client, Message, Snowflake } from "discord.js";
+import type { Client, Message, Snowflake } from "discord.js";
 import BaseCommand from "../../Modules/Commands/BaseCommand";
-import Command from "../../Types/Command";
+import type Command from "../../Types/Command";
 
 export default {
 	async run(
@@ -30,6 +30,7 @@ class Add extends BaseCommand {
 
 	public async run(): Promise<void> {
 		const msg = `>trade <@${this.author}> ${this.args.join(" ")}`;
+		if (!this.message.channel.isSendable()) return;
 		this.message.channel.send(msg);
 	}
 }

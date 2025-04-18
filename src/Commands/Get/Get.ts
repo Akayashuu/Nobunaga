@@ -1,7 +1,7 @@
-import { Client, Message, Snowflake } from "discord.js";
-import BaseCommand from "../../Modules/Commands/BaseCommand";
-import Command from "../../Types/Command";
 import fs from "fs";
+import type { Client, Message, Snowflake } from "discord.js";
+import BaseCommand from "../../Modules/Commands/BaseCommand";
+import type Command from "../../Types/Command";
 import { Configuration } from "../Configuration/Configuration";
 
 export default {
@@ -34,15 +34,21 @@ class Get extends BaseCommand {
 		const database = this.fetchDatabase();
 		if (database.authorized_user_ids.includes(this.author)) {
 			const msg = `>trade ${this.args.join(" ")} <@${this.author}>`;
-			this.message.channel.send(msg);
+			if (this.message.channel.isSendable()) {
+				this.message.channel.send(msg);
+			}
 		} else {
-			this.message.channel.send(
-				"You are not authorized to use this command :(",
-			);
+			if (this.message.channel.isSendable()) {
+				this.message.channel.send(
+					"You are not authorized to use this command :(",
+				);
+			}
 		}
 	}
 
-	private fetchDatabase(): any {
+	private fetchDatabase(): {
+		authorized_user_ids: string[];
+	} {
 		const file = fs.readFileSync(Configuration.db_path, "utf8");
 		return JSON.parse(file);
 	}

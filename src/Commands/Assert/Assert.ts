@@ -1,6 +1,6 @@
-import { Client, Message, Snowflake } from "discord.js";
+import type { Client, Message, Snowflake } from "discord.js";
 import BaseCommand from "../../Modules/Commands/BaseCommand";
-import Command from "../../Types/Command";
+import type Command from "../../Types/Command";
 
 export default {
 	async run(
@@ -30,6 +30,7 @@ class Assert extends BaseCommand {
 
 	public async run(): Promise<void> {
 		const msg = `>assert ${this.args[0]} ${this.args[1] ? this.args[1] : ""}`;
+		if (!this.message.channel.isSendable()) return;
 		this.message.channel.send(msg);
 	}
 }

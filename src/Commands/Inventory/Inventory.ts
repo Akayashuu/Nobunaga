@@ -1,6 +1,6 @@
-import { Client, Message, Snowflake } from "discord.js";
+import type { Client, Message, Snowflake } from "discord.js";
 import BaseCommand from "../../Modules/Commands/BaseCommand";
-import Command from "../../Types/Command";
+import type Command from "../../Types/Command";
 
 export default {
 	async run(
@@ -30,7 +30,9 @@ class Inventory extends BaseCommand {
 
 	public async run(): Promise<void> {
 		const msg = `>inventory ${this.args[0]}`;
-		this.message.channel.send(msg);
+		if (this.message.channel.isSendable()) {
+			this.message.channel.send(msg);
+		}
 	}
 }
 

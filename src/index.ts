@@ -1,9 +1,9 @@
 import Application from "./Application";
 
 const ApplicationInstance = new Application();
-    (async e => {
-        await ApplicationInstance.init();
-    })()
+(async (e) => {
+	await ApplicationInstance.init();
+})();
 
 type ApplicationType = typeof ApplicationInstance;
-export {ApplicationInstance, ApplicationType};
+export { ApplicationInstance, type ApplicationType };
