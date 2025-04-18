@@ -57,19 +57,27 @@ class Configuration extends BaseCommand {
 					return this.message.channel.send(
 						"User already in the authorized_user_ids list.",
 					);
-				json.authorized_user_ids.push(user_id);
-				fs.writeFile(
-					Configuration.db_path,
-					JSON.stringify(json),
-					"utf8",
-					(err) => {
-						if (err) throw err;
-						if (!this.message.channel.isSendable()) return;
-						this.message.channel.send(
-							`User <@${user_id}> added to the authorized_user_ids list.`,
-						);
-					},
-				);
+
+				if (json.owners.includes(user_id)) {
+					json.authorized_user_ids.push(user_id);
+					fs.writeFile(
+						Configuration.db_path,
+						JSON.stringify(json),
+						"utf8",
+						(err) => {
+							if (err) throw err;
+							if (!this.message.channel.isSendable()) return;
+							this.message.channel.send(
+								`User <@${user_id}> added to the authorized_user_ids list.`,
+							);
+						},
+					);
+				} else {
+					if (!this.message.channel.isSendable()) return;
+					this.message.channel.send(
+						"You are not allowed to add users to the authorized_user_ids list.",
+					);
+				}
 			});
 		} else {
 			if (!this.message.channel.isSendable()) return;

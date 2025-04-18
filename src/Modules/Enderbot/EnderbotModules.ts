@@ -34,10 +34,11 @@ class EnderbotModules {
 
 	private isInventory(): boolean {
 		if (this.message.embeds.length === 0) return false;
+		if (!this.message.embeds[0].footer) return false;
 		return (
 			this.message.embeds[0].footer.text === "📜 2 / 7 - Resources" ||
-			this.message.embeds[0].title === "📜 3 / 7 - Exploration" ||
-			this.message.embeds[0].title === "📜 4 / 7 - Alchemy"
+			this.message.embeds[0].footer.text === "📜 3 / 7 - Exploration" ||
+			this.message.embeds[0].footer.text === "📜 4 / 7 - Alchemy"
 		);
 	}
 }

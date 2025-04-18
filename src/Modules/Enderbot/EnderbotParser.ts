@@ -13,9 +13,9 @@ class EnderbotParser {
 			for (const line of splitted) {
 				const name = line.split(":")[0].trim();
 				const underscoreId = EnderbotParser.toUnderscore(name);
-				const value = line.split(":")[1];
-				const valueSplit = value.split(" ");
-				const number = EnderbotParser.binaryNotationToNumber(valueSplit[1]);
+				const value = line.split(":")[1]?.replaceAll("*", "").trim();
+				if (!value) continue;
+				const number = EnderbotParser.binaryNotationToNumber(value);
 				inventory[underscoreId] = {
 					name,
 					underscoreId,
@@ -33,7 +33,7 @@ class EnderbotParser {
 		const data = embed[0].fields;
 		const craftData = {} as EnderbotForgeData;
 		for (const field of data) {
-			if (field.name === "Cost") {
+			if (field.name === "💰 Cost") {
 				craftData.cost = EnderbotParser.getCraftCost(field);
 			}
 		}
@@ -49,14 +49,8 @@ class EnderbotParser {
 		const data = embed[0].fields;
 		const craftData = {} as EnderbotCraftData;
 		for (const field of data) {
-			if (field.name === "Cost") {
+			if (field.name === "💰 Cost") {
 				craftData.cost = EnderbotParser.getCraftCost(field);
-			} else {
-				const id = field.value.match(/`\D*`/gm)[0].replace(/`/g, "");
-				craftData.id = id;
-				const secondRow = field.value.split("\n")[1];
-				const name = secondRow.split(":")[1].trim();
-				craftData.name = name;
 			}
 		}
 		craftData.canCraft = !Object.values(craftData.cost).some(
@@ -76,7 +70,7 @@ class EnderbotParser {
 			const isMissing = value.includes("❌");
 			const valueSplit = value.split(" ");
 			const number = isMissing
-				? valueSplit[valueSplit.length - 1].replace(")", "")
+				? valueSplit[1].replaceAll("*", "")
 				: valueSplit[1];
 			cost[underscoreId] = {
 				name,
