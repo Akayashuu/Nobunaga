@@ -58,7 +58,7 @@ class Configuration extends BaseCommand {
 						"User already in the authorized_user_ids list.",
 					);
 
-				if (json.owners.includes(user_id)) {
+				if (json.owners.includes(this.author)) {
 					json.authorized_user_ids.push(user_id);
 					fs.writeFile(
 						Configuration.db_path,
