@@ -15,25 +15,26 @@ class EnderbotModules {
 	}
 
 	private isCraft(): boolean {
-		if (this.message.embeds.length === 0) return false;
-		if (this.message.embeds[0].fields.length < 2) return false;
-		const isPotionCraft =
-			this.message.embeds[0].fields[0].name === "💰 Cost" &&
-			this.message.embeds[0].fields[1].name === "📜 Information";
+		if (!this.message.embeds[1]) return false;
+		if (this.message.embeds[1].fields.length < 2) return false;
+		const fields = this.message.embeds[1].fields;
+		const hasCost = fields.some(field => field.name === "💰 Cost");
+		const hasInformation = fields.some(field => field.name === "📜 Information");
+		const isPotionCraft = hasCost && hasInformation;
 		return isPotionCraft;
 	}
 
 	private isForge(): boolean {
-		if (this.message.embeds.length === 0) return false;
-		if (this.message.embeds[0].fields.length < 2) return false;
+		if (!this.message.embeds[1]) return false;
+		if (this.message.embeds[1].fields.length < 2) return false;
 		return (
-			this.message.embeds[0].fields[0].name === "💰 Cost" &&
-			this.message.embeds[0].fields[1].name === "ℹ️ Information"
+			this.message.embeds[1].fields.some(field => field.name.startsWith("💰")) &&
+			this.message.embeds[1].fields.some(field => field.name.startsWith("ℹ️"))
 		);
 	}
 
 	private isInventory(): boolean {
-		if (this.message.embeds.length === 0) return false;
+		if (!this.message.embeds[0]) return false;
 		if (!this.message.embeds[0].footer) return false;
 		return (
 			this.message.embeds[0].footer.text === "📜 2 / 7 - Resources" ||

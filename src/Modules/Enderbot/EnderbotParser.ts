@@ -30,11 +30,23 @@ class EnderbotParser {
 	static parseForgeEmbed(message: Message<boolean>): EnderbotForgeData {
 		const embed = message.embeds;
 		if (embed.length === 0) return null;
-		const data = embed[0].fields;
+		const data = embed[1].fields;
 		const craftData = {} as EnderbotForgeData;
 		for (const field of data) {
 			if (field.name === "💰 Cost") {
-				craftData.cost = EnderbotParser.getCraftCost(field);
+				const cost = EnderbotParser.getCraftCost(field);
+				if (!craftData.cost) {
+					craftData.cost = cost;
+				} else {
+					for (const key in cost) {
+						if (craftData.cost[key]) {
+							craftData.cost[key].number += cost[key].number;
+							craftData.cost[key].missing = craftData.cost[key].missing || cost[key].missing;
+						} else {
+							craftData.cost[key] = cost[key];
+						}
+					}
+				}
 			}
 		}
 		craftData.canForge = !Object.values(craftData.cost).some(
@@ -46,16 +58,29 @@ class EnderbotParser {
 	static parseCraftEmbed(message: Message<boolean>): EnderbotCraftData {
 		const embed = message.embeds;
 		if (embed.length === 0) return null;
-		const data = embed[0].fields;
+		const data = embed[1].fields;
 		const craftData = {} as EnderbotCraftData;
 		for (const field of data) {
 			if (field.name === "💰 Cost") {
-				craftData.cost = EnderbotParser.getCraftCost(field);
+				const cost = EnderbotParser.getCraftCost(field);
+				if (!craftData.cost) {
+					craftData.cost = cost;
+				} else {
+					for (const key in cost) {
+						if (craftData.cost[key]) {
+							craftData.cost[key].number += cost[key].number;
+							craftData.cost[key].missing = craftData.cost[key].missing || cost[key].missing;
+						} else {
+							craftData.cost[key] = cost[key];
+						}
+					}
+				}
 			}
 		}
 		craftData.canCraft = !Object.values(craftData.cost).some(
 			(cost) => cost.missing,
 		);
+		
 		return craftData;
 	}
 
@@ -64,6 +89,7 @@ class EnderbotParser {
 		const splitted = cleaned.split("\n");
 		const cost = {} as EnderbotCraftData["cost"];
 		for (const line of splitted) {
+			if (line.trim().endsWith("(❌)")) continue;
 			const name = line.split(":")[0].trim();
 			const underscoreId = EnderbotParser.toUnderscore(name);
 			const value = line.split(":")[1];
@@ -88,7 +114,7 @@ class EnderbotParser {
 
 	static cleanCraftData(data: string): string {
 		return data
-			.replace(/<:.*:.*>/g, "")
+			.replace(/<a?:.*?:\d+>/g, "")
 			.replace(/[^\p{L}\p{N}\p{P}\p{Z}^$\n❌]/gu, "");
 	}
 

@@ -23,14 +23,12 @@ export default async (
 
 class messageUpdate {
 	static enderbotId = "280726849842053120";
-	private oldMessage: Message<boolean> | PartialMessage;
 	private newMessage: Message<boolean> | PartialMessage;
 
 	constructor(
-		oldMessage: Message<boolean> | PartialMessage,
+		_oldMessage: Message<boolean> | PartialMessage,
 		newMessage: Message<boolean> | PartialMessage,
 	) {
-		this.oldMessage = oldMessage;
 		this.newMessage = newMessage;
 	}
 
